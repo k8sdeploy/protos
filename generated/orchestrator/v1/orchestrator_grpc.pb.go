@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorClient interface {
-	Deploy(ctx context.Context, in *Deployment, opts ...grpc.CallOption) (*Deployment, error)
+	Deploy(ctx context.Context, in *DeploymentRequest, opts ...grpc.CallOption) (*DeploymentResponse, error)
 }
 
 type orchestratorClient struct {
@@ -33,8 +33,8 @@ func NewOrchestratorClient(cc grpc.ClientConnInterface) OrchestratorClient {
 	return &orchestratorClient{cc}
 }
 
-func (c *orchestratorClient) Deploy(ctx context.Context, in *Deployment, opts ...grpc.CallOption) (*Deployment, error) {
-	out := new(Deployment)
+func (c *orchestratorClient) Deploy(ctx context.Context, in *DeploymentRequest, opts ...grpc.CallOption) (*DeploymentResponse, error) {
+	out := new(DeploymentResponse)
 	err := c.cc.Invoke(ctx, "/orchestrator.v1.Orchestrator/Deploy", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (c *orchestratorClient) Deploy(ctx context.Context, in *Deployment, opts ..
 // All implementations must embed UnimplementedOrchestratorServer
 // for forward compatibility
 type OrchestratorServer interface {
-	Deploy(context.Context, *Deployment) (*Deployment, error)
+	Deploy(context.Context, *DeploymentRequest) (*DeploymentResponse, error)
 	mustEmbedUnimplementedOrchestratorServer()
 }
 
@@ -54,7 +54,7 @@ type OrchestratorServer interface {
 type UnimplementedOrchestratorServer struct {
 }
 
-func (UnimplementedOrchestratorServer) Deploy(context.Context, *Deployment) (*Deployment, error) {
+func (UnimplementedOrchestratorServer) Deploy(context.Context, *DeploymentRequest) (*DeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Deploy not implemented")
 }
 func (UnimplementedOrchestratorServer) mustEmbedUnimplementedOrchestratorServer() {}
@@ -71,7 +71,7 @@ func RegisterOrchestratorServer(s grpc.ServiceRegistrar, srv OrchestratorServer)
 }
 
 func _Orchestrator_Deploy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Deployment)
+	in := new(DeploymentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func _Orchestrator_Deploy_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/orchestrator.v1.Orchestrator/Deploy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServer).Deploy(ctx, req.(*Deployment))
+		return srv.(OrchestratorServer).Deploy(ctx, req.(*DeploymentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

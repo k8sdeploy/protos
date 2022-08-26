@@ -2,7 +2,7 @@ syntax = "proto3";
 package orchestrator.v1;
 option go_package = "github.com/k8sdeploy/protos/go/orchestrator/v1";
 
-message Deployment {
+message DeploymentRequest {
   message AuthorDetails {
     string username = 1;
     string name = 2;
@@ -20,6 +20,11 @@ message Deployment {
   }
 }
 
+message DeploymentResponse {
+  bool deployed = 1;
+  optional string status = 99;
+}
+
 service Orchestrator {
-  rpc Deploy(Deployment) returns (Deployment) {}
+  rpc Deploy(DeploymentRequest) returns (DeploymentResponse) {}
 }
