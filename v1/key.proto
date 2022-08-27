@@ -4,11 +4,10 @@ option go_package = "github.com/k8sdeploy/protos/gen/go/key/v1";
 
 message KeyResponse {
   string user = 1;
-  string retro = 2;
-  string timer = 3;
-  string company = 4;
-  string billing = 5;
-  string permissions = 6;
+  string hooks = 2;
+  string company = 3;
+  string billing = 4;
+  string permissions = 5;
   optional string status = 99;
 }
 
