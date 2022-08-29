@@ -22,9 +22,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type KeyServiceClient interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*KeyResponse, error)
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*KeyResponse, error)
-	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidResponse, error)
+	CreateAgentKeys(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error)
+	GetAgentKeys(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error)
+	ValidateAgentKey(ctx context.Context, in *ValidateSystemKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error)
+	CreateHookKeys(ctx context.Context, in *HooksRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error)
+	GetHookKeysForCompany(ctx context.Context, in *HooksRequest, opts ...grpc.CallOption) (*MultipleHooksResponse, error)
+	ValidateHookKey(ctx context.Context, in *ValidateSystemKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error)
+	CreateUserKeys(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	ValidateUserKeys(ctx context.Context, in *ValidateUserKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error)
 }
 
 type keyServiceClient struct {
@@ -35,27 +40,72 @@ func NewKeyServiceClient(cc grpc.ClientConnInterface) KeyServiceClient {
 	return &keyServiceClient{cc}
 }
 
-func (c *keyServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*KeyResponse, error) {
-	out := new(KeyResponse)
-	err := c.cc.Invoke(ctx, "/key.v1.KeyService/Create", in, out, opts...)
+func (c *keyServiceClient) CreateAgentKeys(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error) {
+	out := new(SystemKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/CreateAgentKeys", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *keyServiceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*KeyResponse, error) {
-	out := new(KeyResponse)
-	err := c.cc.Invoke(ctx, "/key.v1.KeyService/Get", in, out, opts...)
+func (c *keyServiceClient) GetAgentKeys(ctx context.Context, in *AgentRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error) {
+	out := new(SystemKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/GetAgentKeys", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *keyServiceClient) Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidResponse, error) {
-	out := new(ValidResponse)
-	err := c.cc.Invoke(ctx, "/key.v1.KeyService/Validate", in, out, opts...)
+func (c *keyServiceClient) ValidateAgentKey(ctx context.Context, in *ValidateSystemKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error) {
+	out := new(ValidKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/ValidateAgentKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyServiceClient) CreateHookKeys(ctx context.Context, in *HooksRequest, opts ...grpc.CallOption) (*SystemKeyResponse, error) {
+	out := new(SystemKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/CreateHookKeys", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyServiceClient) GetHookKeysForCompany(ctx context.Context, in *HooksRequest, opts ...grpc.CallOption) (*MultipleHooksResponse, error) {
+	out := new(MultipleHooksResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/GetHookKeysForCompany", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyServiceClient) ValidateHookKey(ctx context.Context, in *ValidateSystemKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error) {
+	out := new(ValidKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/ValidateHookKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyServiceClient) CreateUserKeys(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/CreateUserKeys", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyServiceClient) ValidateUserKeys(ctx context.Context, in *ValidateUserKeyRequest, opts ...grpc.CallOption) (*ValidKeyResponse, error) {
+	out := new(ValidKeyResponse)
+	err := c.cc.Invoke(ctx, "/key.v1.KeyService/ValidateUserKeys", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,9 +116,14 @@ func (c *keyServiceClient) Validate(ctx context.Context, in *ValidateRequest, op
 // All implementations must embed UnimplementedKeyServiceServer
 // for forward compatibility
 type KeyServiceServer interface {
-	Create(context.Context, *CreateRequest) (*KeyResponse, error)
-	Get(context.Context, *GetRequest) (*KeyResponse, error)
-	Validate(context.Context, *ValidateRequest) (*ValidResponse, error)
+	CreateAgentKeys(context.Context, *AgentRequest) (*SystemKeyResponse, error)
+	GetAgentKeys(context.Context, *AgentRequest) (*SystemKeyResponse, error)
+	ValidateAgentKey(context.Context, *ValidateSystemKeyRequest) (*ValidKeyResponse, error)
+	CreateHookKeys(context.Context, *HooksRequest) (*SystemKeyResponse, error)
+	GetHookKeysForCompany(context.Context, *HooksRequest) (*MultipleHooksResponse, error)
+	ValidateHookKey(context.Context, *ValidateSystemKeyRequest) (*ValidKeyResponse, error)
+	CreateUserKeys(context.Context, *UserRequest) (*UserResponse, error)
+	ValidateUserKeys(context.Context, *ValidateUserKeyRequest) (*ValidKeyResponse, error)
 	mustEmbedUnimplementedKeyServiceServer()
 }
 
@@ -76,14 +131,29 @@ type KeyServiceServer interface {
 type UnimplementedKeyServiceServer struct {
 }
 
-func (UnimplementedKeyServiceServer) Create(context.Context, *CreateRequest) (*KeyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedKeyServiceServer) CreateAgentKeys(context.Context, *AgentRequest) (*SystemKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAgentKeys not implemented")
 }
-func (UnimplementedKeyServiceServer) Get(context.Context, *GetRequest) (*KeyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedKeyServiceServer) GetAgentKeys(context.Context, *AgentRequest) (*SystemKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgentKeys not implemented")
 }
-func (UnimplementedKeyServiceServer) Validate(context.Context, *ValidateRequest) (*ValidResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
+func (UnimplementedKeyServiceServer) ValidateAgentKey(context.Context, *ValidateSystemKeyRequest) (*ValidKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateAgentKey not implemented")
+}
+func (UnimplementedKeyServiceServer) CreateHookKeys(context.Context, *HooksRequest) (*SystemKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateHookKeys not implemented")
+}
+func (UnimplementedKeyServiceServer) GetHookKeysForCompany(context.Context, *HooksRequest) (*MultipleHooksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHookKeysForCompany not implemented")
+}
+func (UnimplementedKeyServiceServer) ValidateHookKey(context.Context, *ValidateSystemKeyRequest) (*ValidKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateHookKey not implemented")
+}
+func (UnimplementedKeyServiceServer) CreateUserKeys(context.Context, *UserRequest) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUserKeys not implemented")
+}
+func (UnimplementedKeyServiceServer) ValidateUserKeys(context.Context, *ValidateUserKeyRequest) (*ValidKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateUserKeys not implemented")
 }
 func (UnimplementedKeyServiceServer) mustEmbedUnimplementedKeyServiceServer() {}
 
@@ -98,56 +168,146 @@ func RegisterKeyServiceServer(s grpc.ServiceRegistrar, srv KeyServiceServer) {
 	s.RegisterService(&KeyService_ServiceDesc, srv)
 }
 
-func _KeyService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+func _KeyService_CreateAgentKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KeyServiceServer).Create(ctx, in)
+		return srv.(KeyServiceServer).CreateAgentKeys(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/key.v1.KeyService/Create",
+		FullMethod: "/key.v1.KeyService/CreateAgentKeys",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyServiceServer).Create(ctx, req.(*CreateRequest))
+		return srv.(KeyServiceServer).CreateAgentKeys(ctx, req.(*AgentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KeyService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _KeyService_GetAgentKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KeyServiceServer).Get(ctx, in)
+		return srv.(KeyServiceServer).GetAgentKeys(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/key.v1.KeyService/Get",
+		FullMethod: "/key.v1.KeyService/GetAgentKeys",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(KeyServiceServer).GetAgentKeys(ctx, req.(*AgentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KeyService_Validate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ValidateRequest)
+func _KeyService_ValidateAgentKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateSystemKeyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KeyServiceServer).Validate(ctx, in)
+		return srv.(KeyServiceServer).ValidateAgentKey(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/key.v1.KeyService/Validate",
+		FullMethod: "/key.v1.KeyService/ValidateAgentKey",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyServiceServer).Validate(ctx, req.(*ValidateRequest))
+		return srv.(KeyServiceServer).ValidateAgentKey(ctx, req.(*ValidateSystemKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyService_CreateHookKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HooksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyServiceServer).CreateHookKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/key.v1.KeyService/CreateHookKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyServiceServer).CreateHookKeys(ctx, req.(*HooksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyService_GetHookKeysForCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HooksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyServiceServer).GetHookKeysForCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/key.v1.KeyService/GetHookKeysForCompany",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyServiceServer).GetHookKeysForCompany(ctx, req.(*HooksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyService_ValidateHookKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateSystemKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyServiceServer).ValidateHookKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/key.v1.KeyService/ValidateHookKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyServiceServer).ValidateHookKey(ctx, req.(*ValidateSystemKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyService_CreateUserKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyServiceServer).CreateUserKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/key.v1.KeyService/CreateUserKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyServiceServer).CreateUserKeys(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyService_ValidateUserKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateUserKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyServiceServer).ValidateUserKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/key.v1.KeyService/ValidateUserKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyServiceServer).ValidateUserKeys(ctx, req.(*ValidateUserKeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -160,16 +320,36 @@ var KeyService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*KeyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _KeyService_Create_Handler,
+			MethodName: "CreateAgentKeys",
+			Handler:    _KeyService_CreateAgentKeys_Handler,
 		},
 		{
-			MethodName: "Get",
-			Handler:    _KeyService_Get_Handler,
+			MethodName: "GetAgentKeys",
+			Handler:    _KeyService_GetAgentKeys_Handler,
 		},
 		{
-			MethodName: "Validate",
-			Handler:    _KeyService_Validate_Handler,
+			MethodName: "ValidateAgentKey",
+			Handler:    _KeyService_ValidateAgentKey_Handler,
+		},
+		{
+			MethodName: "CreateHookKeys",
+			Handler:    _KeyService_CreateHookKeys_Handler,
+		},
+		{
+			MethodName: "GetHookKeysForCompany",
+			Handler:    _KeyService_GetHookKeysForCompany_Handler,
+		},
+		{
+			MethodName: "ValidateHookKey",
+			Handler:    _KeyService_ValidateHookKey_Handler,
+		},
+		{
+			MethodName: "CreateUserKeys",
+			Handler:    _KeyService_CreateUserKeys_Handler,
+		},
+		{
+			MethodName: "ValidateUserKeys",
+			Handler:    _KeyService_ValidateUserKeys_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
