@@ -3,18 +3,21 @@ package key.v1;
 option go_package = "github.com/k8sdeploy/protos/gen/go/key/v1";
 
 message AgentRequest {
-  string company_id = 1;
+  string service_key = 1;
+  string company_id = 2;
 }
 
 message HooksRequest {
-  string company_id = 1;
-  optional string repo_url = 2;
+  string service_key = 1;
+  string company_id = 2;
+  optional string repo_url = 3;
 }
 
 message ValidateSystemKeyRequest {
-  string company_id = 1;
-  string key = 2;
-  string secret = 3;
+  string service_key = 1;
+  string company_id = 2;
+  string key = 3;
+  string secret = 4;
 }
 
 message KeyResponse {
@@ -24,14 +27,16 @@ message KeyResponse {
 }
 
 message ValidateUserKeyRequest {
-  string user_id = 1;
-  string key = 2;
-  string secret = 3;
+  string service_key = 1;
+  string user_id = 2;
+  string key = 3;
+  string secret = 4;
 }
 
 message UserRequest {
-  string user_id = 1;
-  string company_id = 2;
+  string service_key = 1;
+  string user_id = 2;
+  string company_id = 3;
 }
 
 message ValidKeyResponse {
