@@ -17,9 +17,9 @@ message ValidateSystemKeyRequest {
   string secret = 3;
 }
 
-message SystemKeyResponse {
-  string agent_key = 1;
-  string agent_secret = 2;
+message KeyResponse {
+  string key = 1;
+  string secret = 2;
   optional string status = 99;
 }
 
@@ -34,33 +34,27 @@ message UserRequest {
   string company_id = 2;
 }
 
-message UserResponse {
-  string key = 1;
-  string secret = 2;
-  optional string status = 99;
-}
-
 message ValidKeyResponse {
   bool valid = 1;
   optional string status = 99;
 }
 
 message MultipleHooksResponse {
-  repeated SystemKeyResponse keys = 1;
+  repeated KeyResponse keys = 1;
   optional string status = 99;
 }
 
 
 
 service KeyService {
-  rpc CreateAgentKeys(AgentRequest) returns (SystemKeyResponse);
-  rpc GetAgentKeys(AgentRequest) returns (SystemKeyResponse);
+  rpc CreateAgentKeys(AgentRequest) returns (KeyResponse);
+  rpc GetAgentKeys(AgentRequest) returns (KeyResponse);
   rpc ValidateAgentKey(ValidateSystemKeyRequest) returns (ValidKeyResponse);
 
-  rpc CreateHookKeys(HooksRequest) returns (SystemKeyResponse);
+  rpc CreateHookKeys(HooksRequest) returns (KeyResponse);
   rpc GetHookKeysForCompany(HooksRequest) returns (MultipleHooksResponse);
   rpc ValidateHookKey(ValidateSystemKeyRequest) returns (ValidKeyResponse);
 
-  rpc CreateUserKeys(UserRequest) returns (UserResponse);
+  rpc CreateUserKeys(UserRequest) returns (KeyResponse);
   rpc ValidateUserKeys(ValidateUserKeyRequest) returns (ValidKeyResponse);
 }
