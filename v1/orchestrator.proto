@@ -12,6 +12,7 @@ message K8sDetails {
 message AuthorDetails {
   string username = 1;
   string name = 2;
+  string email = 3;
 }
 
 message DeploymentRequest {
