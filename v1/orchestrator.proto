@@ -18,7 +18,7 @@ message AuthorDetails {
 message DeploymentRequest {
   string service_key = 1;
   K8sDetails k8s_details = 2;
-  AuthorDetails author_details = 3;
+  optional AuthorDetails author_details = 3;
 
   optional string commit_message = 4;
   optional string commit_id = 5;
