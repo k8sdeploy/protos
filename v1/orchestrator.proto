@@ -3,16 +3,16 @@ package orchestrator.v1;
 option go_package = "github.com/k8sdeploy/protos/go/orchestrator/v1";
 
 message K8sDetails {
-    string image_hash = 1;
-    string image_tag = 2;
-    string service_name = 3;
-    string service_namespace = 4;
-  }
+  string image_hash = 1;
+  string image_tag = 2;
+  string service_name = 3;
+  string service_namespace = 4;
+}
 
-  message AuthorDetails {
-    string username = 1;
-    string name = 2;
-  }
+message AuthorDetails {
+  string username = 1;
+  string name = 2;
+}
 
 message DeploymentRequest {
   string service_key = 1;
