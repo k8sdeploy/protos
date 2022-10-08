@@ -1,4 +1,4 @@
-.PHONY: setup
+'.PHONY: setup
 setup:
 	mkdir -p generated
 	mkdir -p generated/key
