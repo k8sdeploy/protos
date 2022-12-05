@@ -1,0 +1,24 @@
+syntax = "proto3";
+package key.v1;
+option go_package = "github.com/k8sdeploy/protos/gen/go/company/v1";
+
+message CompanyRequest {
+   string user_key = 1;
+   optional string company_key = 2;
+   optional string company_name = 3;
+   optional string company_email = 4;
+}
+
+message CompanyResponse {
+   string company_key = 1;
+   string company_name = 2;
+   string company_email = 3;
+   optional string error = 99;
+}
+
+service CompanyService {
+  rpc CreateCompany(CompanyRequest) returns (CompanyResponse);
+  rpc GetCompany(CompanyRequest) returns (CompanyResponse);
+  rpc UpdateCompany(CompanyRequest) returns (CompanyResponse);
+  rpc DeleteCompany(CompanyRequest) returns (CompanyResponse);
+}
