@@ -13,7 +13,7 @@ message CompanyResponse {
    string company_key = 1;
    string company_name = 2;
    string company_email = 3;
-   optional string error = 99;
+   optional string status = 99;
 }
 
 service CompanyService {
