@@ -23,6 +23,10 @@ message MultiplePermissionRequest {
   repeated PermissionItem permissions = 1;
 }
 
+message AllPermissionsGetRequest {
+  string user_id = 1;
+}
+
 service PermissionService {
   // Modification
   rpc AddPermission(PermissionItem) returns (PermissionResponse) {}
@@ -31,6 +35,6 @@ service PermissionService {
   rpc RemovePermissions(MultiplePermissionRequest) returns (PermissionResponse) {}
 
   // Retrieval
-  rpc GetPermissions(PermissionItem) returns (PermissionResponse) {}
+  rpc GetPermissions(AllPermissionsGetRequest) returns (PermissionResponse) {}
   rpc CanDo(PermissionItem) returns (PermissionResponse) {}
 }

@@ -28,7 +28,7 @@ type PermissionServiceClient interface {
 	RemovePermission(ctx context.Context, in *PermissionItem, opts ...grpc.CallOption) (*PermissionResponse, error)
 	RemovePermissions(ctx context.Context, in *MultiplePermissionRequest, opts ...grpc.CallOption) (*PermissionResponse, error)
 	// Retrieval
-	GetPermissions(ctx context.Context, in *PermissionItem, opts ...grpc.CallOption) (*PermissionResponse, error)
+	GetPermissions(ctx context.Context, in *AllPermissionsGetRequest, opts ...grpc.CallOption) (*PermissionResponse, error)
 	CanDo(ctx context.Context, in *PermissionItem, opts ...grpc.CallOption) (*PermissionResponse, error)
 }
 
@@ -76,7 +76,7 @@ func (c *permissionServiceClient) RemovePermissions(ctx context.Context, in *Mul
 	return out, nil
 }
 
-func (c *permissionServiceClient) GetPermissions(ctx context.Context, in *PermissionItem, opts ...grpc.CallOption) (*PermissionResponse, error) {
+func (c *permissionServiceClient) GetPermissions(ctx context.Context, in *AllPermissionsGetRequest, opts ...grpc.CallOption) (*PermissionResponse, error) {
 	out := new(PermissionResponse)
 	err := c.cc.Invoke(ctx, "/permissions.v1.PermissionService/GetPermissions", in, out, opts...)
 	if err != nil {
@@ -104,7 +104,7 @@ type PermissionServiceServer interface {
 	RemovePermission(context.Context, *PermissionItem) (*PermissionResponse, error)
 	RemovePermissions(context.Context, *MultiplePermissionRequest) (*PermissionResponse, error)
 	// Retrieval
-	GetPermissions(context.Context, *PermissionItem) (*PermissionResponse, error)
+	GetPermissions(context.Context, *AllPermissionsGetRequest) (*PermissionResponse, error)
 	CanDo(context.Context, *PermissionItem) (*PermissionResponse, error)
 	mustEmbedUnimplementedPermissionServiceServer()
 }
@@ -125,7 +125,7 @@ func (UnimplementedPermissionServiceServer) RemovePermission(context.Context, *P
 func (UnimplementedPermissionServiceServer) RemovePermissions(context.Context, *MultiplePermissionRequest) (*PermissionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemovePermissions not implemented")
 }
-func (UnimplementedPermissionServiceServer) GetPermissions(context.Context, *PermissionItem) (*PermissionResponse, error) {
+func (UnimplementedPermissionServiceServer) GetPermissions(context.Context, *AllPermissionsGetRequest) (*PermissionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPermissions not implemented")
 }
 func (UnimplementedPermissionServiceServer) CanDo(context.Context, *PermissionItem) (*PermissionResponse, error) {
@@ -217,7 +217,7 @@ func _PermissionService_RemovePermissions_Handler(srv interface{}, ctx context.C
 }
 
 func _PermissionService_GetPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PermissionItem)
+	in := new(AllPermissionsGetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -229,7 +229,7 @@ func _PermissionService_GetPermissions_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/permissions.v1.PermissionService/GetPermissions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServiceServer).GetPermissions(ctx, req.(*PermissionItem))
+		return srv.(PermissionServiceServer).GetPermissions(ctx, req.(*AllPermissionsGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
