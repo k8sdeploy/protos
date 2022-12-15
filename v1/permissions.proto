@@ -2,37 +2,16 @@ syntax = "proto3";
 package permissions.v1;
 option go_package = "github.com/k8sdeploy/protos/gen/go/permissions/v1";
 
+// eg user:edit:email
+// eg user:view
 message PermissionItem {
-  string name = 1;
-  string allowed = 2;
-}
-
-message AllowedRequest {
-  string userid = 1;
-  optional string companyid = 2;
-  optional string resourceid = 3;
-}
-
-message CanDoRequest {
-  string userid = 1;
-  string action = 2;
-  optional string companyid = 3;
-  optional string resourceid = 4;
-}
-
-message AddPermissionRequest {
-  string userid = 1;
-  string companyid = 2;
-  string resourceid = 3;
-  string permission = 4;
-  bool allowed = 5;
-}
-
-message RemovePermissionRequest {
-  string userid = 1;
-  string companyid = 2;
-  string resourceid = 3;
-  string permission = 4;
+  string resource = 1; // user
+  string action = 2; // edit
+  string allowed = 3;
+  optional string sub_action = 4; // email
+  optional string user_id = 5;
+  optional string company_id = 6;
+  optional string asset_id = 7;
 }
 
 message PermissionResponse {
@@ -40,9 +19,18 @@ message PermissionResponse {
   optional string status = 99;
 }
 
+message MultiplePermissionRequest {
+  repeated PermissionItem permissions = 1;
+}
+
 service PermissionService {
-  rpc GetPermissions(AllowedRequest) returns (PermissionResponse) {}
-  rpc AddPermission(AddPermissionRequest) returns (PermissionResponse) {}
-  rpc RemovePermission(RemovePermissionRequest) returns (PermissionResponse) {}
-  rpc CanDo(CanDoRequest) returns (PermissionResponse) {}
+  // Modification
+  rpc AddPermission(PermissionItem) returns (PermissionResponse) {}
+  rpc AddPermissions(MultiplePermissionRequest) returns (PermissionResponse) {}
+  rpc RemovePermission(PermissionItem) returns (PermissionResponse) {}
+  rpc RemovePermissions(MultiplePermissionRequest) returns (PermissionResponse) {}
+
+  // Retrieval
+  rpc GetPermissions(PermissionItem) returns (PermissionResponse) {}
+  rpc CanDo(PermissionItem) returns (PermissionResponse) {}
 }
