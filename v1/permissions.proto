@@ -9,9 +9,12 @@ message PermissionItem {
   string action = 2; // edit
   string allowed = 3;
   optional string sub_action = 4; // email
-  optional string user_id = 5;
-  optional string company_id = 6;
-  optional string asset_id = 7;
+
+  oneof subject {
+    string user_id = 5;
+    string company_id = 6;
+    string asset_id = 7;
+  }
 }
 
 message PermissionResponse {
