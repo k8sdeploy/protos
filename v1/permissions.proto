@@ -8,7 +8,7 @@ message PermissionItem {
   string owner_id = 1;
   string resource = 2; // user
   string action = 3; // edit
-  string allowed = 4;
+  bool allowed = 4;
   optional string sub_resource = 5; // email
 
   oneof subject {
