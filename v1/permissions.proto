@@ -5,15 +5,16 @@ option go_package = "github.com/k8sdeploy/protos/gen/go/permissions/v1";
 // eg user:edit:email
 // eg user:view
 message PermissionItem {
-  string resource = 1; // user
-  string action = 2; // edit
-  string allowed = 3;
-  optional string sub_action = 4; // email
+  string owner_id = 1;
+  string resource = 2; // user
+  string action = 3; // edit
+  string allowed = 4;
+  optional string sub_action = 5; // email
 
   oneof subject {
-    string user_id = 5;
-    string company_id = 6;
-    string asset_id = 7;
+    string user_id = 6;
+    string company_id = 7;
+    string asset_id = 8;
   }
 }
 
