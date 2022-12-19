@@ -28,7 +28,7 @@ message MultiplePermissionRequest {
 }
 
 message AllPermissionsGetRequest {
-  string user_id = 1;
+  string owner_id = 1;
 }
 
 service PermissionService {
