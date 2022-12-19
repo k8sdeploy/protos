@@ -9,7 +9,7 @@ message PermissionItem {
   string resource = 2; // user
   string action = 3; // edit
   string allowed = 4;
-  optional string sub_action = 5; // email
+  optional string sub_resource = 5; // email
 
   oneof subject {
     string user_id = 6;
