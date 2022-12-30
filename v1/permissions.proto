@@ -2,13 +2,13 @@ syntax = "proto3";
 package permissions.v1;
 option go_package = "github.com/k8sdeploy/protos/gen/go/permissions/v1";
 
-// eg user:edit:email
+// eg user:email:edit
 // eg user:view
 message PermissionItem {
   string owner_id = 1;
   string resource = 2; // user
   string action = 3; // edit
-  bool allowed = 4;
+  optional bool allowed = 4;
   optional string sub_resource = 5; // email
 
   oneof subject {
